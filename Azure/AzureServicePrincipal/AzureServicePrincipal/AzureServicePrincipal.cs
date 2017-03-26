@@ -31,56 +31,22 @@ namespace Azure.ServicePrincipal
 {
     public class AzureServicePrincipal
     {
-        // private string subscriptionID;
-        // private string tenantID;
+        //private string subscriptionID;
+        //private string tenantID;
         //private string applicationID;
         //private string applicationSecret;
 
         public string subscriptionID
         {
-            get { return subscriptionID; }
-            set
-            {
-                try
-                {
-                    subscriptionID = validateGuidFormat(value);
-                }
-                catch (System.FormatException e)
-                {
-                    Trace.WriteLine(e.ToString());
-                }
-            }
+            get; set;
         }
         public string tenantID
         {
-            get { return tenantID; }
-            set
-            {
-                try
-                {
-                    tenantID = validateGuidFormat(value);
-                }
-                catch (System.FormatException e)
-                {
-                    Trace.WriteLine(e.ToString());
-                }
-            }
+            get; set;
         }
         public string applicationID
         {
-            get { return applicationID; }
-            set
-            {
-                try
-                {
-                    applicationID = validateGuidFormat(value);
-                }
-                catch (System.FormatException e)
-                {
-                    Trace.WriteLine(e.ToString());
-                }
-            }
-
+            get; set;
         }
         public string applicationSecret
         {
@@ -99,8 +65,18 @@ namespace Azure.ServicePrincipal
             return securityToken;
         }
 
-        private string validateGuidFormat(string v)
+        public string validateGuidFormat(string v)
         {
+            v = v.Trim(' ');
+            if (v[0] != '{')
+            {
+                v = "{" + v;
+            }
+
+            if (v[v.Length - 1] != '}')
+            {
+                v = v + "}";
+            }
             //Validate that v is of this format: "{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}"
             Regex guidFormat = new Regex(@"^[{|\(]?[0-9a-fA-F]{8}[-]?([0-9a-fA-F]{4}[-]?){3}[0-9a-fA-F]{12}[\)|}]?$");
             Match match = guidFormat.Match(v);
@@ -108,18 +84,6 @@ namespace Azure.ServicePrincipal
             if (match.Success == false)
             {
                 throw new System.FormatException("Value must be a GUID: {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}");
-            }
-            else
-            {
-                if (v[0] != '{')
-                {
-                    v = "{" + v;
-                }
-
-                if (v[v.Length - 1] != '}')
-                {
-                    v = v + "}";
-                }
             }
 
             return v;
