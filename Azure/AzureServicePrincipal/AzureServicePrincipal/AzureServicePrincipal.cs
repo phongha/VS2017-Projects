@@ -31,11 +31,8 @@ namespace Azure.ServicePrincipal
 {
     public class AzureServicePrincipal
     {
-        //private string subscriptionID;
-        //private string tenantID;
-        //private string applicationID;
-        //private string applicationSecret;
-
+        //true if the private GUID members are set to well formed GUIDs
+        private bool checkGuidFormat = false;
         public string subscriptionID
         {
             get; set;
@@ -58,15 +55,72 @@ namespace Azure.ServicePrincipal
             get; set;
         }
 
-        private AuthenticationResult GetSecurityToken(string tenantId, string applicationId, string applicationSecret)
+        private AuthenticationResult GetSecurityToken()
         {
-            AuthenticationContext authContext = new AuthenticationContext("https://login.windows.net/" + tenantId);
-            securityToken = authContext.AcquireToken("https://management.core.windows.net/", new ClientCredential(applicationId, applicationSecret));
+            bool isValid = false;
+
+            if (checkGuidFormat == false)
+            {
+                isValid = CheckAllGuidsMembers();
+            }
+            AuthenticationContext authContext = new AuthenticationContext("https://login.windows.net/" + tenantID);
+            securityToken = authContext.AcquireToken("https://management.core.windows.net/", new ClientCredential(applicationID, applicationSecret));
             return securityToken;
         }
 
-        public string validateGuidFormat(string v)
+        public bool CheckAllGuidsMembers()
         {
+            //Do a GUID format validation check if it has not been done
+            if (checkGuidFormat == false)
+            {
+                try
+                {
+                    if(subscriptionID == null)
+                    {
+                        return false;
+                    }
+                    subscriptionID = ValidateGuidFormat(subscriptionID);
+                }
+                catch (FormatException e)
+                {
+                    Trace.WriteLine("Invalid Subscription ID GUID: %s", e.Message);
+                    return false;
+                }
+                try
+                {
+                    if (applicationID == null)
+                    {
+                        return false;
+                    }
+                    applicationID = ValidateGuidFormat(applicationID);
+                }
+                catch (FormatException e)
+                {
+                    Trace.WriteLine("Invalid application ID GUID: %s", e.Message);
+                    return false;
+                }
+                try
+                {
+                    if (tenantID == null)
+                    {
+                        return false;
+                    }
+                    tenantID = ValidateGuidFormat(tenantID);
+                }
+                catch (FormatException e)
+                {
+                    Trace.WriteLine("Invalid tenant ID GUID: %s", e.Message);
+                    return false;
+                }
+            }
+            checkGuidFormat = true;
+            return true;
+        }
+
+
+        public string ValidateGuidFormat(string v)
+        {
+            //trim leading and trailing blanks, and ensure that the GUID is bracketed by curly braces.
             v = v.Trim(' ');
             if (v[0] != '{')
             {

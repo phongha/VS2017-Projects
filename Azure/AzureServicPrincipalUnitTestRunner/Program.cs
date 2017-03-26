@@ -11,10 +11,10 @@ namespace AzureServicPrincipalUnitTestRunner
     {
         static void Main(string[] args)
         {
-            string subscriptionID = "b44fdde2-1234-1234-a75b-24429617b2d";
             //string expectedSubscriptionID = "{b44fdde2-1234-1234-a75b-24429617b2d9}";
             AzureServicePrincipal sp = new AzureServicePrincipal();
-            sp.subscriptionID = subscriptionID;
+            string sandboxSubID = "b44fdde2-5322-4858-a75b-24429617b2d9";
+            sp.subscriptionID = sp.ValidateGuidFormat(sandboxSubID);
         }
     }
 }
