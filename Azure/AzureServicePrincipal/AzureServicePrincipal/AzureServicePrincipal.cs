@@ -32,8 +32,6 @@ namespace Azure.ServicePrincipal
     
     public class AzureServicePrincipal
     {
-        //true if the private GUID members are set to well formed GUIDs
-        private bool checkGuidFormat = false;
         public string subscriptionID
         {
             get; set;
