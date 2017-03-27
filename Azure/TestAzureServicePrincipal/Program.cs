@@ -31,7 +31,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Azure.ServicePrincipal;
 
-namespace AzureServicPrincipalUnitTestRunner
+namespace TestAzureServicePrincipal
 {
     class Program
     {
@@ -41,12 +41,12 @@ namespace AzureServicPrincipalUnitTestRunner
             AzureServicePrincipal sp = new AzureServicePrincipal();
             AuthenticationResult token = null;
 
-            sp.subscriptionID = "bc763005-d3e0-4e3f-b57b-c95bd0f9dc23";
-            sp.tenantID = "2d38b813-8ed2-4b98-9d2b-ca8c3a732b8e";
-            sp.applicationID = "570aa489-9df3-475f-8065-bc8fde0267df";
-            sp.applicationSecret = "myAprilTestPassword89!";
+            sp.subscriptionID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+            sp.tenantID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+            sp.applicationID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+            sp.applicationSecret = "xxxxxxxxxxxxxxxx";
 
-            if(sp.CheckAllGuidsMembers() == true)
+            if (sp.CheckAllGuidsMembers() == true)
             {
                 token = sp.GetSecurityToken();
                 Console.WriteLine("Token acquired. Expires on:" + token.ExpiresOn);
@@ -54,7 +54,6 @@ namespace AzureServicPrincipalUnitTestRunner
             }
 
             Console.ReadLine();
-
 
         }
     }

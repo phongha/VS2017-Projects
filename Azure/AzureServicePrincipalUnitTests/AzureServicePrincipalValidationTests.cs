@@ -11,21 +11,9 @@ namespace AzureServicePrincipalUnitTests
         public void ValidateGuidFormat()
         {
             AzureServicePrincipal sp = new AzureServicePrincipal();
-            string expectedSubscriptionID = "{b44fdde2-1234-1234-a75b-24429617b2d9}";
+            string expectedSubscriptionID = "b44fdde2-1234-1234-a75b-24429617b2d9";
             
             sp.subscriptionID = sp.ValidateGuidFormat("b44fdde2-1234-1234-a75b-24429617b2d9");
-            //The expected value should match with curly braces
-            Assert.AreEqual(expectedSubscriptionID, sp.subscriptionID, true);
-
-            sp.subscriptionID = sp.ValidateGuidFormat("{b44fdde2-1234-1234-a75b-24429617b2d9}");
-            //The expected value should match with curly braces
-            Assert.AreEqual(expectedSubscriptionID, sp.subscriptionID, true);
-
-            sp.subscriptionID = sp.ValidateGuidFormat("b44fdde2-1234-1234-a75b-24429617b2d9}");
-            //The expected value should match with curly braces
-            Assert.AreEqual(expectedSubscriptionID, sp.subscriptionID, true);
-
-            sp.subscriptionID = sp.ValidateGuidFormat("{b44fdde2-1234-1234-a75b-24429617b2d9");
             //The expected value should match with curly braces
             Assert.AreEqual(expectedSubscriptionID, sp.subscriptionID, true);
 
@@ -36,7 +24,7 @@ namespace AzureServicePrincipalUnitTests
         {
             AzureServicePrincipal sp = new AzureServicePrincipal();
             //Assert will be handled by the exception
-            sp.subscriptionID = sp.ValidateGuidFormat("b44fdde2-1234-1234-a75b-1234}");
+            sp.subscriptionID = sp.ValidateGuidFormat("b44fdde2-1234-1234-a75b-1234");
         }
 
         [TestMethod]
@@ -45,7 +33,7 @@ namespace AzureServicePrincipalUnitTests
         {
             AzureServicePrincipal sp = new AzureServicePrincipal();
             //Assert will be handled by the exception
-            sp.subscriptionID = sp.ValidateGuidFormat("{b44fdde2-1234- -a75b-24429617b2d9}");
+            sp.subscriptionID = sp.ValidateGuidFormat("b44fdde2-1234- -a75b-24429617b2d9");
         }
 
         [TestMethod]
@@ -54,7 +42,7 @@ namespace AzureServicePrincipalUnitTests
         {
             AzureServicePrincipal sp = new AzureServicePrincipal();
             //Assert will be handled by the exception
-            sp.subscriptionID = sp.ValidateGuidFormat("{1234567-1234-1234-a75b-24429617b2d9}");
+            sp.subscriptionID = sp.ValidateGuidFormat("1234567-1234-1234-a75b-24429617b2d9");
         }
 
         [TestMethod]

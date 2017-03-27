@@ -55,16 +55,27 @@ namespace Azure.ServicePrincipal
             get; set;
         }
 
-        private AuthenticationResult GetSecurityToken()
+        public AuthenticationResult GetSecurityToken()
         {
-            bool isValid = false;
-
-            if (checkGuidFormat == false)
+            AuthenticationContext authContext = null;
+           try
             {
-                isValid = CheckAllGuidsMembers();
+                authContext = new AuthenticationContext("https://login.windows.net/" + tenantID);
             }
-            AuthenticationContext authContext = new AuthenticationContext("https://login.windows.net/" + tenantID);
-            securityToken = authContext.AcquireToken("https://management.core.windows.net/", new ClientCredential(applicationID, applicationSecret));
+            catch (Exception e)
+            {
+                Trace.WriteLine("Failed to acquire authentication context %s.", e.Message);
+                return null;
+            }
+            try
+            {
+                securityToken = authContext.AcquireToken("https://management.core.windows.net/", new ClientCredential(applicationID, applicationSecret));
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("Failed to acquire token with authentication context %s", e.Message);
+                return null;
+            }
             return securityToken;
         }
 
@@ -122,22 +133,13 @@ namespace Azure.ServicePrincipal
         {
             //trim leading and trailing blanks, and ensure that the GUID is bracketed by curly braces.
             v = v.Trim(' ');
-            if (v[0] != '{')
-            {
-                v = "{" + v;
-            }
-
-            if (v[v.Length - 1] != '}')
-            {
-                v = v + "}";
-            }
-            //Validate that v is of this format: "{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}"
+            //Validate that v is of this format: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
             Regex guidFormat = new Regex(@"^[{|\(]?[0-9a-fA-F]{8}[-]?([0-9a-fA-F]{4}[-]?){3}[0-9a-fA-F]{12}[\)|}]?$");
             Match match = guidFormat.Match(v);
 
             if (match.Success == false)
             {
-                throw new System.FormatException("Value must be a GUID: {xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}");
+                throw new System.FormatException("Value must be a GUID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
             }
 
             return v;

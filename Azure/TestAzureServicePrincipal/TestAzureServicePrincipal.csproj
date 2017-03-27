@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{71F144B9-7B5F-4245-9EAD-43E3EDD3235A}</ProjectGuid>
+    <ProjectGuid>{738C3D60-A5ED-4D44-A01A-30CE7455EF06}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>AzureServicPrincipalUnitTestRunner</RootNamespace>
-    <AssemblyName>AzureServicPrincipalUnitTestRunner</AssemblyName>
+    <RootNamespace>TestAzureServicePrincipal</RootNamespace>
+    <AssemblyName>TestAzureServicePrincipal</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
