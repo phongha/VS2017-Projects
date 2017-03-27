@@ -29,6 +29,7 @@ using System.Diagnostics;
 
 namespace Azure.ServicePrincipal
 {
+    
     public class AzureServicePrincipal
     {
         //true if the private GUID members are set to well formed GUIDs
@@ -81,50 +82,45 @@ namespace Azure.ServicePrincipal
 
         public bool CheckAllGuidsMembers()
         {
-            //Do a GUID format validation check if it has not been done
-            if (checkGuidFormat == false)
+            try
             {
-                try
+                if(subscriptionID == null)
                 {
-                    if(subscriptionID == null)
-                    {
-                        return false;
-                    }
-                    subscriptionID = ValidateGuidFormat(subscriptionID);
-                }
-                catch (FormatException e)
-                {
-                    Trace.WriteLine("Invalid Subscription ID GUID: %s", e.Message);
                     return false;
                 }
-                try
-                {
-                    if (applicationID == null)
-                    {
-                        return false;
-                    }
-                    applicationID = ValidateGuidFormat(applicationID);
-                }
-                catch (FormatException e)
-                {
-                    Trace.WriteLine("Invalid application ID GUID: %s", e.Message);
-                    return false;
-                }
-                try
-                {
-                    if (tenantID == null)
-                    {
-                        return false;
-                    }
-                    tenantID = ValidateGuidFormat(tenantID);
-                }
-                catch (FormatException e)
-                {
-                    Trace.WriteLine("Invalid tenant ID GUID: %s", e.Message);
-                    return false;
-                }
+                subscriptionID = ValidateGuidFormat(subscriptionID);
             }
-            checkGuidFormat = true;
+            catch (FormatException e)
+            {
+                Trace.WriteLine("Invalid Subscription ID GUID: %s", e.Message);
+                return false;
+            }
+            try
+            {
+                if (applicationID == null)
+                {
+                    return false;
+                }
+                applicationID = ValidateGuidFormat(applicationID);
+            }
+            catch (FormatException e)
+            {
+                Trace.WriteLine("Invalid application ID GUID: %s", e.Message);
+                return false;
+            }
+            try
+            {
+                if (tenantID == null)
+                {
+                    return false;
+                }
+                tenantID = ValidateGuidFormat(tenantID);
+            }
+            catch (FormatException e)
+            {
+                Trace.WriteLine("Invalid tenant ID GUID: %s", e.Message);
+                return false;
+            }        
             return true;
         }
 
@@ -140,6 +136,17 @@ namespace Azure.ServicePrincipal
             if (match.Success == false)
             {
                 throw new System.FormatException("Value must be a GUID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
+            }
+            //strip leading curly braces, or brackets
+            if (v[0] == '{')
+            {
+                v = v.TrimStart('{');
+                v = v.TrimEnd('}');
+            }
+            else if (v[0] == '(')
+            {
+                v = v.TrimStart('(');
+                v = v.TrimEnd(')');
             }
 
             return v;
