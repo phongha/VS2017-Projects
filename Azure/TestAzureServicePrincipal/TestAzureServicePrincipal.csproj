@@ -104,10 +104,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AADUtilsLibrary\AADUtilsLibrary.csproj">
+      <Project>{00d7b8f0-e8b9-43fd-bbc2-93002e83495d}</Project>
+      <Name>AADUtilsLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AzureServicePrincipal\AzureServicePrincipal\AzureServicePrincipal.csproj">
       <Project>{ac7ad131-2681-40e0-b27b-76e646aaa3d5}</Project>
       <Name>AzureServicePrincipal</Name>

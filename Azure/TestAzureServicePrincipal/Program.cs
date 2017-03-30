@@ -18,6 +18,7 @@
  *  
  */
 
+
 using Microsoft.Azure;
 using Microsoft.Azure.Management.ResourceManager;
 using Microsoft.Azure.Management.ResourceManager.Models;
@@ -30,6 +31,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Azure.ServicePrincipal;
+using Azure.AADUtilsLibrary;
+
 
 namespace TestAzureServicePrincipal
 {
@@ -46,13 +49,19 @@ namespace TestAzureServicePrincipal
             sp.applicationID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
             sp.applicationSecret = "xxxxxxxxxxxxxxxx";
 
+            
+
             if (sp.CheckAllGuidsMembers() == true)
             {
                 token = sp.GetSecurityToken();
                 Console.WriteLine("Token acquired. Expires on:" + token.ExpiresOn);
 
             }
-
+            else
+            {
+                Console.WriteLine("To run this test, please enter values for the service principal object in program.cs.");
+            }
+            Console.Write("Press a key to continue....");
             Console.ReadLine();
 
         }

@@ -103,7 +103,7 @@ namespace Azure.ServicePrincipal
             }
             catch (FormatException e)
             {
-                Trace.WriteLine("Invalid application ID GUID: %s", e.Message);
+                Trace.WriteLine("Invalid application ID GUID: ", e.Message);
                 return false;
             }
             try
